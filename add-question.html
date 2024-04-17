@@ -60,19 +60,12 @@
 
     <script src="configuration.js"></script>
     <script>
-      let host = getHost();
+      let host = "https://c322-test3-backend-aceresol.onrender.com";
       let questions = [];
       displayTheQuestions();
 
       async function getAll() {
-        const headers = {
-          "Authorization": `Bearer ${configuration.token()}`
-        };
-        let response = await fetch(host + "/questions", { headers: headers });
-        if (response.status === 401) {
-          alert("Unauthorized");
-          logout();
-        }
+        let response = await fetch(host + "/questions");
         let result = await response.json();
         return result;
       }
@@ -90,7 +83,7 @@
           div.className = "card";
           let innerHtml = `
          
-        <img src="${URL.createObjectURL(await getTheImage(question.id))}" alt="question" style="width:100%">
+        <img src="https://c322-test3-backend-aceresol.onrender.com/questions/${question.id}/image" alt="question" style="width:100%">
         <div class="container">
           <h4><b>${question.id}</b></h4> 
           <p>${question.description}</p>
@@ -110,14 +103,6 @@
           div.innerHTML = innerHtml;
           list.appendChild(div);
         }
-      }
-      async function getTheImage(questionId) {
-        headers = {
-          "Authorization": `Bearer ${configuration.token()}`
-        };
-        let response = await fetch(host + "/questions/" + questionId + "/image", { headers });
-        let result = await response.blob();
-        return result;
       }
 
       function add() {
@@ -149,7 +134,6 @@
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${configuration.token()}`
           },
           body: JSON.stringify(question),
         };
@@ -163,12 +147,7 @@
             message =
               "Something went wrong! Question data was saved successfully but question image was not saved.";
           }
-        } 
-        else if (response.status == 401) {
-          message = "Unauthorized";
-          logout();
-        }
-        else {
+        } else {
           console.log(response);
           message = "Something went wrong! Question data could not be saved.";
         }
@@ -182,18 +161,11 @@
         let request = {
           method: "POST",
           body: formData,
-          headers: {
-            "Authorization": `Bearer ${configuration.token()}`
-          },
         };
         let response = await fetch(
           host + "/questions/" + id + "/image",
           request
         );
-        if (response.status === 401) {
-          alert("Unauthorized");
-          logout();
-        }
         let result = await response.json();
         return result;
       }
