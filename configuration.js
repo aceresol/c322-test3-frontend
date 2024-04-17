@@ -1,7 +1,7 @@
 const mode = 0;
 
 const host_local = "http://localhost:8080";
-const host_remote = "https://ducks-service-???.onrender.com";
+const host_remote = "https://c322-test3-backend-aceresol.onrender.com";
 
 function getHost() {
     return (mode == 0) ? host_local : host_remote;
@@ -54,7 +54,7 @@ async function signup() {
     let email = document.getElementById("email").value;
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
-    let customer = {email:email, username: username, password: password}
+    let customer = {email: email, username: username, password: password}
     let request = {
         method: "POST",
         headers: {
